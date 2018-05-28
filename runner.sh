@@ -12,13 +12,15 @@ pip install -q --upgrade pip setuptools
 pip install -q requests google-cloud-storage
 
 # install nodejs and yarn
+apt-get update -q
+apt-get install -q -y apt-transport-https
+
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 echo "deb https://deb.nodesource.com/node_8.x jessie main" | tee /etc/apt/sources.list.d/nodesource.list
 
-apt-get install -q -y apt-transport-https
 apt-get update -q
 apt-get install -q -y nodejs yarn
 
