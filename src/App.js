@@ -17,7 +17,7 @@ export default class extends Component {
   }
 
   componentDidMount() {
-    fetch('/output.json', {
+    fetch(`${window.PUBLIC_URL}/output.json`, {
       method: 'get',
     }).then((response) => {
       return response.json()
@@ -26,10 +26,9 @@ export default class extends Component {
     })
   }
 
-
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter basename={window.PUBLIC_URL}>
         <div>
           <Navbar>
             <Navbar.Header>

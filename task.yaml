@@ -1,0 +1,13 @@
+name: GitHub activity board
+schedule: 0 0 *
+schedule_active: True
+
+tasks:
+- name: activity for django
+  queue: default
+  max_retries: 1
+  command: GITHUB_ORGANIZATION=django curl -s https://raw.githubusercontent.com/aclowes/github-activity-board/master/runner.sh | bash
+- name: activity for kubernetes
+  queue: default
+  max_retries: 1
+  command: GITHUB_ORGANIZATION=kubernetes curl -s https://raw.githubusercontent.com/aclowes/github-activity-board/master/runner.sh | bash

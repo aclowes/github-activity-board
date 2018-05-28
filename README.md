@@ -6,8 +6,6 @@ Getting started:
 
     export GITHUB_TOKEN=
     export GITHUB_ORGANIZATION=
-    export GITHUB_TEAM=
-    mkdir cache
     python github_report.py
     
     yarn install

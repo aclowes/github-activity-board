@@ -4,16 +4,17 @@ Get user comments and PRs from GitHub
 import json
 import os
 import statistics
+import math
+import datetime
+
 from operator import itemgetter
 
-import math
 import requests
 
 # inputs
 token = os.environ['GITHUB_TOKEN']
 organization = os.environ['GITHUB_ORGANIZATION']
-team = os.environ['GITHUB_TEAM']
-since_date = '2017-06-24'
+since_date = (datetime.date.today() - datetime.timedelta(days=180)).strftime('%Y-%m-%d')
 
 graphql_url = 'https://api.github.com/graphql'
 pr_url = 'https://api.github.com/repos/{repo_name}/pulls/{pr_id}'
@@ -23,21 +24,19 @@ session.headers.update({'Authorization': 'bearer {}'.format(token)})
 users_query = """
 query get($last: Int, $before: String) {
   organization(login: "%s") {
-    team(slug: "%s") {
-      members(last: $last, before: $before) {
-        nodes {
-          login
-          name
-        }
-        pageInfo {
-          startCursor
-          hasPreviousPage
-        }
+    members(last: $last, before: $before) {
+      nodes {
+        login
+        name
+      }
+      pageInfo {
+        startCursor
+        hasPreviousPage
       }
     }
   }
 }
-""" % (organization, team)
+""" % (organization,)
 commit_comments_query = """
 query get($login: String!, $last: Int, $before: String) {
   user(login: $login) {
@@ -180,6 +179,7 @@ def levenshtein_distance(s1, s2):
 
 
 def get_cached(name, login=None):
+    os.makedirs('cache/', exist_ok=True)
     filename = 'cache/{}_{}.json'.format(name.replace('_query', ''), login)
     if os.path.exists(filename):
         return json.load(open(filename))
@@ -240,7 +240,8 @@ def build_report_task():
         user_lines_stdev = (user['log_lines'] - lines_mean) / lines_stddev
         user['activity_score'] = 5 + user_comments_stdev + user_pull_requests_stdev + user_lines_stdev
 
-    json.dump(users, open('cache/output.json', 'w'))
+    os.makedirs('data/', exist_ok=True)
+    json.dump(users, open('data/output.json', 'w'))
 
 
 if __name__ == '__main__':
