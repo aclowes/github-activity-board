@@ -6,6 +6,7 @@ import os
 import statistics
 import math
 import datetime
+import time
 
 from operator import itemgetter
 
@@ -98,6 +99,15 @@ query get($login: String!, $last: Int, $before: String) {
 """
 
 
+def call_api(method, url, **kwargs):
+    response = session.request(method, url, **kwargs)
+    if response.status_code == 403:
+        time.sleep(5)
+        return call_api(method, url, **kwargs)
+    response.raise_for_status()
+    return response.json()
+
+
 def get_graphql(query, login=None):
     start_cursor = None
     results = []
@@ -114,9 +124,7 @@ def get_graphql(query, login=None):
             'operationName': 'get'
         }
 
-        response = session.post(graphql_url, json=body)
-        response.raise_for_status()
-        data = response.json()
+        data = call_api('POST', graphql_url, json=body)
         while True:
             if 'errors' in data:
                 print(data.pop('errors'))
@@ -149,9 +157,7 @@ def get_graphql(query, login=None):
 def get_pull_requests(repo_name, pr_id):
     url = pr_url.format(repo_name=repo_name, pr_id=pr_id)
     headers = {'Accept': 'application/vnd.github.v3+json'}
-    response = session.get(url, headers=headers)
-    response.raise_for_status()
-    return response.json()
+    return call_api('GET', url, headers=headers)
 
 
 def get_hot_repos():
