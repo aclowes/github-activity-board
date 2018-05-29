@@ -126,6 +126,11 @@ def get_graphql(query, login=None):
 
         data = call_api('POST', graphql_url, json=body)
         while True:
+            if data is None:
+                # this happens with cblecker in kubernetes :shrug:
+                print('nothing here')
+                return results
+
             if 'errors' in data:
                 print(data.pop('errors'))
 
