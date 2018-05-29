@@ -27,7 +27,7 @@ apt-get install -q -y nodejs yarn
 # calculate activity
 echo $GITHUB_ORGANIZATION
 export PUBLIC_URL=/github-activity-board/$GITHUB_ORGANIZATION
+python github_report.py
 yarn install
 yarn build
-python github_report.py
 python upload.py
