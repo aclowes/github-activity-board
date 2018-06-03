@@ -6,10 +6,11 @@ export default (props) => {
   const rows = props.comments.map((comment, index) =>
     <tr key={index}>
       <td>
-        <a href={comment.issue && comment.issue.url}>
+        <a href={comment.url || comment.issue.url} target="_blank">
           {moment(comment.publishedAt).fromNow()}
         </a>
       </td>
+      <td>{(comment.url || comment.issue.url).split('/').slice(3, 5).join('/')}</td>
       <td>{comment.body}</td>
     </tr>
   );
@@ -18,6 +19,7 @@ export default (props) => {
       <thead>
       <tr>
         <th>Date</th>
+        <th>Repository</th>
         <th>Comment</th>
       </tr>
       </thead>

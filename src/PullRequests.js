@@ -6,10 +6,11 @@ export default (props) => {
   const rows = props.pulls.map(pr =>
     <tr key={`${pr.repository.nameWithOwner}/${pr.number}`}>
       <td>
-        <a href={`https://github.com/${pr.repository.nameWithOwner}/pull/${pr.number}`}>
+        <a href={`https://github.com/${pr.repository.nameWithOwner}/pull/${pr.number}`} target="_blank">
           {moment(pr.publishedAt).fromNow()}
         </a>
       </td>
+      <td>{pr.repository.nameWithOwner}</td>
       <td>{pr.title}</td>
       <td>+{pr.additions}/-{pr.deletions}</td>
     </tr>
@@ -19,6 +20,7 @@ export default (props) => {
       <thead>
       <tr>
         <th>Date</th>
+        <th>Repository</th>
         <th>Title</th>
         <th>Changes</th>
       </tr>
