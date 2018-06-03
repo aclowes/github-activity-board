@@ -10,3 +10,18 @@ Getting started:
     
     yarn install
     yarn start
+
+View some example reports for these organizations on the interwebs:
+
+* [Django](http://static.yawn.live/github-activity-board/django/)
+* [Kubernetes](http://static.yawn.live/github-activity-board/kubernetes/)
+
+The reports are built weekly using [YAWN]. You can view the build
+status in the demo [YAWN instance].
+
+[YAWN]: https://pypi.org/project/yawns
+[YAWN instance]: https://yawn.live/workflows/13
+
+The kubernetes report looks like this, for example:
+
+![Kubernetes report screenshot](https://user-images.githubusercontent.com/910316/40887627-6af78422-6700-11e8-80b1-e9c62bf5c8b5.png)
