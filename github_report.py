@@ -149,7 +149,13 @@ def get_graphql(query, login=None):
                 return results
 
             if 'merged' in row:  # its a PR, get more details
-                row['details'] = get_pull_requests(row['repository']['nameWithOwner'], row['number'])
+                try:
+                    details = get_pull_requests(row['repository']['nameWithOwner'], row['number'])
+                except Exception as exc:
+                    print(exc)
+                    continue
+                row['additions'] = details['additions']
+                row['deletions'] = details['deletions']
 
             results.append(row)
 
@@ -226,12 +232,9 @@ def build_report_task():
         user['lines_added'] = 0
         user['lines_deleted'] = 0
         for pull_request in user['pull_requests']:
-            details = pull_request.pop('details')
-            pull_request['additions'] = details['additions']
-            pull_request['deletions'] = details['deletions']
             if pull_request['merged']:
-                user['lines_added'] += details['additions']
-                user['lines_deleted'] += details['deletions']
+                user['lines_added'] += pull_request['additions']
+                user['lines_deleted'] += pull_request['deletions']
 
         user['log_lines'] = user['lines_added'] + user['lines_deleted']
         if user['log_lines']:
