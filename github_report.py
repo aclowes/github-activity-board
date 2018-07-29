@@ -46,6 +46,11 @@ query get($login: String!, $last: Int, $before: String) {
         url
         body
         publishedAt
+        repository {
+          owner {
+            login
+          }
+        }
       }
       pageInfo {
         startCursor
@@ -64,6 +69,11 @@ query get($login: String!, $last: Int, $before: String) {
         publishedAt
         issue {
           url
+          repository {
+            owner {
+              login
+            }
+          }
         }
       }
       pageInfo {
@@ -87,6 +97,9 @@ query get($login: String!, $last: Int, $before: String) {
         number
         repository {
           nameWithOwner
+          owner {
+            login
+          }
         }
       }
       pageInfo {
@@ -145,8 +158,13 @@ def get_graphql(query, login=None):
                 print('missing row?')
                 continue
 
+            # users don't have publishedAt or repository
             if 'publishedAt' in row and row['publishedAt'] < since_date:
                 return results
+
+            issue = row.get('issue', row)  # PR comments are nested
+            if 'repository' in issue and issue['repository']['owner']['login'] != organization:
+                continue  # wrong organization
 
             if 'merged' in row:  # its a PR, get more details
                 try:

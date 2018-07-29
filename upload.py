@@ -9,7 +9,7 @@ def upload():
     if os.path.exists(cred_file):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = cred_file
 
-    public_url = os.environ['PUBLIC_URL'][1:]
+    public_url = os.environ['PUBLIC_URL'].strip('/')
     client = storage.Client()
     bucket = client.bucket('static.yawn.live')
 
@@ -19,7 +19,7 @@ def upload():
     for filename in glob.glob('build/**', recursive=True):
         if os.path.isdir(filename):
             continue
-        path = f'{public_url}/{filename[len("build/"):]}'
+        path = f'{public_url}/{filename.replace("build/", "")}'
         print(f'Uploading {path}')
         blob = bucket.blob(path)
         blob.upload_from_filename(filename)

@@ -20,22 +20,31 @@ export default props => {
       <td>{Math.round(user.activity_score * 10) / 10}</td>
     </tr>
   );
+  const organization = window.PUBLIC_URL.slice(1);
   return (
-    <Table striped bordered condensed hover>
-      <thead>
-      <tr>
-        <th>Login</th>
-        <th>Name</th>
-        <th>Comments</th>
-        <th>Pull Requests</th>
-        <th>Additions</th>
-        <th>Deletions</th>
-        <th>Score</th>
-      </tr>
-      </thead>
-      <tbody>
-      {rows}
-      </tbody>
-    </Table>
+    <div>
+      <p>View recent GitHub pull requests and comments by contributor
+        to organization <a href={`https://github.com/${organization}/`}>{organization}</a>.
+        Get the source code on <a href='https:github.com/aclowes/github-activity-board'>
+          GitHub</a>.
+        Deployed using the <a href='https://pypi.org/project/yawns'>YAWN</a> python workflow tool.
+      </p>
+      <Table striped bordered condensed hover>
+        <thead>
+        <tr>
+          <th>Login</th>
+          <th>Name</th>
+          <th>Comments</th>
+          <th>Pull Requests</th>
+          <th>Additions</th>
+          <th>Deletions</th>
+          <th>Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        {rows}
+        </tbody>
+      </Table>
+    </div>
   );
 }

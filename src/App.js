@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import 'whatwg-fetch';
 import {Navbar} from 'react-bootstrap';
-import {BrowserRouter, Route, Link} from 'react-router-dom'
-
+import {HashRouter, Route, Link} from 'react-router-dom'
 
 import 'bootswatch/united/bootstrap.css';
 import './App.css';
@@ -28,7 +27,7 @@ export default class extends Component {
 
   render() {
     return (
-      <BrowserRouter basename={window.PUBLIC_URL}>
+      <HashRouter basename="/">
         <div>
           <Navbar>
             <Navbar.Header>
@@ -48,7 +47,7 @@ export default class extends Component {
             )}/>
           </div>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
