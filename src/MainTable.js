@@ -20,7 +20,7 @@ export default props => {
       <td>{Math.round(user.activity_score * 10) / 10}</td>
     </tr>
   );
-  const organization = window.PUBLIC_URL.slice(1);
+  const organization = window.PUBLIC_URL.split('/').slice(-1);
   return (
     <div>
       <p>View recent GitHub pull requests and comments by contributor
