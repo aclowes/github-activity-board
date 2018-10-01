@@ -25,3 +25,10 @@ status in the demo [YAWN instance].
 The kubernetes report looks like this, for example:
 
 ![Kubernetes report screenshot](https://user-images.githubusercontent.com/910316/40887627-6af78422-6700-11e8-80b1-e9c62bf5c8b5.png)
+
+To use standalone:
+
+    export PUBLIC_URL=/$GITHUB_ORGANIZATION
+    yarn build
+    mv build/ $GITHUB_ORGANIZATION
+    python3 -m http.server 8000
