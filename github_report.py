@@ -6,6 +6,7 @@ import os
 import statistics
 import math
 import datetime
+import re
 import time
 
 from operator import itemgetter
@@ -21,6 +22,8 @@ graphql_url = 'https://api.github.com/graphql'
 pr_url = 'https://api.github.com/repos/{repo_name}/pulls/{pr_id}'
 session = requests.Session()
 session.headers.update({'Authorization': 'bearer {}'.format(token)})
+
+starred_users = list(filter(None, os.environ.get('GITHUB_ACTIVITY_BOARD_STARRED_USERS', '').split('|')))
 
 users_query = """
 query get($last: Int, $before: String) {
@@ -258,6 +261,8 @@ def build_report_task():
         if user['log_lines']:
             user['log_lines'] = math.log(user['log_lines'])
             lines.append(user['log_lines'])
+
+        user['starred'] = user['login'] in starred_users
 
     comments_mean = statistics.mean(comments)
     comments_stddev = statistics.stdev(comments)

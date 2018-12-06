@@ -18,6 +18,7 @@ export default props => {
       <td>{user.lines_added}</td>
       <td>{user.lines_deleted}</td>
       <td>{Math.round(user.activity_score * 10) / 10}</td>
+      <td>{user.starred ? '🌟' : ''}</td>
     </tr>
   );
   const organization = window.PUBLIC_URL.split('/').slice(-1);
@@ -39,6 +40,7 @@ export default props => {
           <th>Additions</th>
           <th>Deletions</th>
           <th>Score</th>
+          <th>Starred</th>
         </tr>
         </thead>
         <tbody>
