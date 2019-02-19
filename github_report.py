@@ -149,6 +149,7 @@ def get_graphql(query, login=None):
 
             if 'errors' in data:
                 print(data.pop('errors'))
+                return results
 
             if 'nodes' in data:
                 break

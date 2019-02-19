@@ -6,10 +6,13 @@ Getting started:
 
     export GITHUB_TOKEN=
     export GITHUB_ORGANIZATION=
-    python github_report.py
+    pip3 install requests
+    python3 github_report.py
     
     yarn install
     yarn start
+
+Your GitHub token needs `read:org, read:user, repo` permissions.
 
 View some example reports for these organizations on the interwebs:
 
