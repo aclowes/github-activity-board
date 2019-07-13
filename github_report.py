@@ -6,7 +6,6 @@ import os
 import statistics
 import math
 import datetime
-import re
 import time
 
 from operator import itemgetter
@@ -28,7 +27,7 @@ starred_users = list(filter(None, os.environ.get('GITHUB_ACTIVITY_BOARD_STARRED_
 users_query = """
 query get($last: Int, $before: String) {
   organization(login: "%s") {
-    members(last: $last, before: $before) {
+    membersWithRole(last: $last, before: $before) {
       nodes {
         login
         name
